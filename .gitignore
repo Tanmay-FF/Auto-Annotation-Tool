@@ -1,9 +1,10 @@
-# Model weights (too large for git)
+# Model weights (too large for git — except models/ which uses Git LFS)
 *.pt
 *.pth
 *.gguf
 *.onnx
 *.ts
+!models/*.pt
 
 # Training outputs & datasets
 runs/

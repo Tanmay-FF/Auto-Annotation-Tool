@@ -8,7 +8,7 @@ An end-to-end annotation and training platform for object detection. Combines **
 - **Video Support** — open video files, extract keyframes (every N frames or N uniform), annotate them.
 - **YOLO Auto-Annotate** — pick any YOLO `.pt` model, map its classes to your workspace classes, auto-label entire directories or videos. Supports multi-class mapping in a single pass.
 - **VLM Auto-Annotation** — 8+ vision-language detection models:
-  - **Claude (API)** — understands natural-language label definitions
+  - **Claude** — understands natural-language label definitions
   - **Qwen2.5-VL 3B** — local grounded detection with context understanding
   - **Grounding DINO** (base/tiny)
   - **OWL-ViT / OWL-v2**
@@ -145,9 +145,35 @@ Raw Images/Video
   Repeat cycle → Better model each iteration
 ```
 
-## License
+## Pretrained Models
 
-MIT
+The `models/` directory ships with custom-trained YOLO weights via **Git LFS**:
+
+| Model | Task | Size |
+|---|---|---|
+| `models/yolov26m_person_cart.pt` | Person + cart detection | ~50MB |
+
+To use: select "Use custom .pt" in the **Train** tab or load it directly in the **Auto Annotate** dialog.
+
+**Note:** Git LFS is required to clone these files. Install with:
+
+```bash
+git lfs install
+git clone https://github.com/Tanmay-FF/auto-annotation-tool.git
+```
+
+If you already cloned without LFS:
+
+```bash
+cd auto-annotation-tool
+git lfs install
+git lfs pull
+```
+
+## Author
+
+**Tanmay Thaker**
+Email: Tanmay.Thaker@carttronics.net
 
 ## Contributing
 
