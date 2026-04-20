@@ -49,44 +49,24 @@ source venv/bin/activate    # Linux/Mac
 pip install -r requirements.txt
 ```
 
-### 3. Optional: enable Claude auto-annotation (OLAF token)
+### 3. Optional: enable Claude auto-annotation
 
-To use the **Claude** model for auto-labeling, you'll need an OLAF (OnLine Authentication Framework) token:
+To use the **Claude** model for auto-labeling, generate an OAuth token and set it as an environment variable:
 
-1. **Get your OLAF token** from your organization's internal auth portal.
-
-2. **Configure the token** in your terminal session:
-
-   **Windows (PowerShell):**
-   ```powershell
-   $env:ANTHROPIC_API_KEY = "your-olaf-token-here"
-   ```
-
-   **Windows (CMD):**
-   ```cmd
-   set ANTHROPIC_API_KEY=your-olaf-token-here
-   ```
-
-   **Linux/Mac (bash/zsh):**
+1. **Generate a token** using the Claude CLI:
    ```bash
-   export ANTHROPIC_API_KEY="your-olaf-token-here"
+   claude setup-token
    ```
+   This will walk you through the authentication flow and output a token.
 
-3. **Make it persistent** (optional — add to your shell profile so you don't have to re-set it):
-
-   **Windows:** Add via System Properties → Environment Variables → New:
-   - Variable name: `ANTHROPIC_API_KEY`
-   - Variable value: your OLAF token
-
-   **Linux/Mac:** Append to `~/.bashrc` or `~/.zshrc`:
+2. **Export the token** in your terminal session:
    ```bash
-   echo 'export ANTHROPIC_API_KEY="your-olaf-token-here"' >> ~/.bashrc
-   source ~/.bashrc
+   export CLAUDE_CODE_OAUTH_TOKEN=<your-token-here>
    ```
 
-4. **Launch the app** from the same terminal where the token is set. In the VLM tab, select `Claude` from the Model dropdown and click **Load Model** — it will connect via OLAF.
+3. **Launch the app** from the same terminal. In the VLM tab, select `Claude` from the Model dropdown and click **Load Model**.
 
-**Note:** Keep your OLAF token private. Do not commit it to git or share it in screenshots. If you rotate tokens, update the environment variable and restart the app.
+**Note:** Keep your token private. Do not commit it to git.
 
 ### 4. Optional: install `llama-cpp-python` for LLaVA GGUF support
 
