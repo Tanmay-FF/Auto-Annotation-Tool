@@ -205,9 +205,6 @@ git lfs install
 git lfs pull
 ```
 
-## Development Note
-
-This project was built with the assistance of an AI coding agent as part of an accelerated development process. All code has been reviewed and tested by the author before being shipped.
 
 ## Author
 
