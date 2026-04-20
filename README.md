@@ -22,9 +22,6 @@ An end-to-end annotation and training platform for object detection. Combines **
 - **Active Learning** — automatically captures user corrections as few-shot examples.
 - **Resizable Panel** — drag the divider to expand/shrink the control panel.
 
-## Screenshots
-
-_(Add screenshots here)_
 
 ## Installation
 
@@ -178,13 +175,20 @@ Raw Images/Video
 
 ## Pretrained Models
 
-The `models/` directory ships with custom-trained YOLO weights via **Git LFS**:
+The `models/` directory ships with ready-to-use weights via **Git LFS**:
 
 | Model | Task | Size |
 |---|---|---|
-| `models/yolov26m_person_cart.pt` | Person + cart detection | ~50MB |
+| `models/yolov26m_person_cart.pt` | Custom-trained person + cart detection | ~50MB |
+| `models/yolo26n.pt` | YOLOv26 nano (generic pretrained) | ~5MB |
+| `models/yolov8n.pt` | YOLOv8 nano (generic pretrained) | ~6MB |
+| `models/yoloe-26x-seg.pt` | YOLOE text-prompted detection | ~164MB |
+| `models/yoloe-26x-seg-pf.pt` | YOLOE prompt-free detection | ~168MB |
+| `models/sam2_b.pt` | SAM2 Base (segmentation refinement) | ~155MB |
 
-To use: select "Use custom .pt" in the **Train** tab or load it directly in the **Auto Annotate** dialog.
+To use: select "Use custom .pt" in the **Train** tab, or load directly in the **Auto Annotate** / **VLM** dialogs.
+
+**LLaVA GGUF models** (~4.5GB total) are too large for LFS free tier — download them manually from Hugging Face (e.g. `mys/ggml_llava-v1.5-7b`) if you need the LLaVA VQA verifier.
 
 **Note:** Git LFS is required to clone these files. Install with:
 
