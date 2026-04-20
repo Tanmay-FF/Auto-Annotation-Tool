@@ -1,0 +1,50 @@
+# Model weights (too large for git)
+*.pt
+*.pth
+*.gguf
+*.onnx
+*.ts
+
+# Training outputs & datasets
+runs/
+dataset/
+yolo_training/
+*_frames/
+
+# Cache / Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Virtual envs
+envs/
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code local
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Few-shot examples (may contain sensitive image thumbnails)
+.vlm_few_shot_examples.json
+
+# Large test files
+test.py
+settings.png
