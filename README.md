@@ -189,7 +189,7 @@ git lfs pull
 ## Author
 
 **Tanmay Thaker**
-Email: Tanmay.Thaker@carttronics.net
+Email: tthaker@gatekeepersystems.com
 
 ## Contributing
 
