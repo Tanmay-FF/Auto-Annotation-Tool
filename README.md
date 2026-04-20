@@ -7,8 +7,8 @@ An end-to-end annotation and training platform for object detection. Combines **
 - **Manual Annotation** — draw, resize, move bounding boxes on images. Keyboard shortcuts for fast labeling.
 - **Video Support** — open video files, extract keyframes (every N frames or N uniform), annotate them.
 - **YOLO Auto-Annotate** — pick any YOLO `.pt` model, map its classes to your workspace classes, auto-label entire directories or videos. Supports multi-class mapping in a single pass.
-- **VLM Auto-Annotation** — 8+ vision-language detection models:
-  - **Claude** — understands natural-language label definitions
+- **VLM Auto-Annotation** — multiple vision-language detection models:
+  - **Claude** — API-based detection with rich natural-language label definitions (no GPU required)
   - **Qwen2.5-VL 3B** — local grounded detection with context understanding
   - **Grounding DINO** (base/tiny)
   - **OWL-ViT / OWL-v2**
@@ -52,13 +52,44 @@ source venv/bin/activate    # Linux/Mac
 pip install -r requirements.txt
 ```
 
-### 3. Optional: install `claude-agent-sdk` for Claude support
+### 3. Optional: enable Claude auto-annotation (OLAF token)
 
-```bash
-pip install claude-agent-sdk
-```
+To use the **Claude** model for auto-labeling, you'll need an OLAF (OnLine Authentication Framework) token:
 
-You'll need a Claude API key configured in your environment.
+1. **Get your OLAF token** from your organization's internal auth portal.
+
+2. **Configure the token** in your terminal session:
+
+   **Windows (PowerShell):**
+   ```powershell
+   $env:ANTHROPIC_API_KEY = "your-olaf-token-here"
+   ```
+
+   **Windows (CMD):**
+   ```cmd
+   set ANTHROPIC_API_KEY=your-olaf-token-here
+   ```
+
+   **Linux/Mac (bash/zsh):**
+   ```bash
+   export ANTHROPIC_API_KEY="your-olaf-token-here"
+   ```
+
+3. **Make it persistent** (optional — add to your shell profile so you don't have to re-set it):
+
+   **Windows:** Add via System Properties → Environment Variables → New:
+   - Variable name: `ANTHROPIC_API_KEY`
+   - Variable value: your OLAF token
+
+   **Linux/Mac:** Append to `~/.bashrc` or `~/.zshrc`:
+   ```bash
+   echo 'export ANTHROPIC_API_KEY="your-olaf-token-here"' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+
+4. **Launch the app** from the same terminal where the token is set. In the VLM tab, select `Claude` from the Model dropdown and click **Load Model** — it will connect via OLAF.
+
+**Note:** Keep your OLAF token private. Do not commit it to git or share it in screenshots. If you rotate tokens, update the environment variable and restart the app.
 
 ### 4. Optional: install `llama-cpp-python` for LLaVA GGUF support
 
@@ -78,7 +109,7 @@ python detection_labelling.py
 1. **Load Images** — Click "Open Images" and select a folder (or "Open Video" to extract keyframes).
 2. **Load Classes** — Click "Load classes.txt" to load your class definitions (one class per line).
 3. **Annotate manually** — Draw boxes by clicking and dragging on the canvas.
-4. **OR auto-annotate** — Switch to the VLM tab, select a model (Claude is fastest for custom concepts), add detection prompts, and click "Run VLM Annotation".
+4. **OR auto-annotate** — Switch to the VLM tab, select a model (Claude is great for custom concepts when OLAF is set up), add detection prompts, and click "Run VLM Annotation".
 5. **Train** — Switch to the Train tab, pick a YOLO base model, set epochs, and click "Start Training".
 6. **Review** — Switch to the Dashboard tab to see class distribution, coverage, and flagged images.
 
@@ -169,6 +200,10 @@ cd auto-annotation-tool
 git lfs install
 git lfs pull
 ```
+
+## Development Note
+
+This project was built with the assistance of an AI coding agent as part of an accelerated development process. All code has been reviewed and tested by the author before being shipped.
 
 ## Author
 

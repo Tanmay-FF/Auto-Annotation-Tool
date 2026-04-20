@@ -33,7 +33,7 @@ env/
 *.swp
 *.swo
 
-# Claude Code local
+# Local editor/tool caches
 .claude/
 
 # OS

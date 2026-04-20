@@ -2,14 +2,15 @@
 
 ## System Overview (2 min)
 
-This is an end-to-end annotation and training platform that combines **manual annotation**, **AI-assisted auto-labeling** (using 9+ models including Claude), and **one-click YOLO training** in a single desktop application.
+This is an end-to-end annotation and training platform that combines **manual annotation**, **AI-assisted auto-labeling** (multiple VLM models), and **one-click YOLO training** in a single desktop application.
 
 **Problem it solves:** One of the biggest bottlenecks in building vision models is annotation time.
 So we built a tool that reduces manual labeling by combining detection models and VLMs in one workflow.
 
-**Three tabs:**
+**Four tabs:**
 - **Annotate** - Manual bounding box annotation + YOLO auto-annotate
-- **VLM** - AI-powered detection using Claude, Grounding DINO, OWL-ViT, Florence-2, YOLOE
+- **VLM** - AI-powered detection using Qwen2.5-VL, Grounding DINO, OWL-ViT, Florence-2, YOLOE
+- **Dashboard** - Class distribution, coverage, flagged images analytics
 - **Train** - One-click YOLO model training from your annotations
 
 ---
@@ -44,7 +45,7 @@ So we built a tool that reduces manual labeling by combining detection models an
    - **Image directory** - select a folder of images
    - **Video file** - select a video, configure frame extraction (every N frames or total N uniform)
 
-**Multi-class mapping (NEW):**
+**Multi-class mapping:**
 4. In the mapping dialog, click **"+ Add"** multiple times to map several model classes at once
    - e.g., `0: person -> 0: person` AND `2: car -> 1: vehicle`
 5. Click **"Start Annotation"**
@@ -58,16 +59,16 @@ So we built a tool that reduces manual labeling by combining detection models an
 
 ---
 
-### Part 3: VLM Auto-Annotation with Claude (5 min)
+### Part 3: VLM Auto-Annotation (5 min)
 
 **Switch to the VLM tab.**
 
-#### 3a: Load Claude
-1. Select **"Claude (API)"** from the Model dropdown
-2. Click **"Load Model"** - instant, no GPU needed
-3. Status shows "Claude (API) ready"
+#### 3a: Load the VLM Model
+1. Select **"Qwen2.5-VL 3B"** from the Model dropdown
+2. Click **"Load Model"** - loads weights to GPU
+3. Status shows the loaded model name
 
-**Key point:** _"Claude needs no local GPU - it runs via API. Other models like Grounding DINO or YOLOE run locally on your GPU."_
+**Key point:** _"Qwen2.5-VL is a grounded vision-language model that runs locally on your GPU and understands natural-language label descriptions."_
 
 #### 3b: Configure Detection Prompts
 1. Type `nested_cart` in the Text field
@@ -75,14 +76,14 @@ So we built a tool that reduces manual labeling by combining detection models an
 3. Click **Add**
 4. Repeat for `cart` mapped to its class
 
-#### 3c: Claude Context (KEY DIFFERENTIATOR)
-Show the **Claude context** text box below the prompts:
+#### 3c: Label Context (KEY DIFFERENTIATOR)
+Show the **Label context** text box below the prompts:
 ```
 nested_cart = a shopping cart with one or more other carts stacked/nested inside it
 cart = a single standalone shopping cart with NO other cart inside
 ```
 
-**Key point:** _"This is what makes Claude powerful for annotation. Unlike other VLMs that only understand keywords, Claude reads these definitions and applies them strictly. This dramatically reduces false positives for domain-specific concepts like 'nested cart'."_
+**Key point:** _"This is what makes VLM annotation powerful. Unlike other detection models that only understand keywords, the VLM reads these definitions and applies them strictly. This dramatically reduces false positives for domain-specific concepts like 'nested cart'."_
 
 #### 3d: Run Annotation
 1. Set Scope to **"Current"** for a live demo
@@ -90,7 +91,7 @@ cart = a single standalone shopping cart with NO other cart inside
 3. Show the bounding boxes appearing on the canvas
 4. Navigate to verify results
 
-**Key point:** _"Claude understood 'nested_cart' vs 'cart' because we told it exactly what each label means."_
+**Key point:** _"The model understood 'nested_cart' vs 'cart' because we told it exactly what each label means."_
 
 ---
 
@@ -98,8 +99,8 @@ cart = a single standalone shopping cart with NO other cart inside
 
 **Show model variety** (optional, pick 1-2):
 
-1. **Discard** the Claude annotations
-2. Load **Grounding DINO Base** or **YOLOE** (needs GPU)
+1. **Discard** the previous annotations
+2. Load **Grounding DINO Base** or **YOLOE**
 3. Add prompts: `cart`, `nested cart`
 4. Run annotation - show results
 5. Compare: these models detect "cart" but can't distinguish nested vs single
@@ -110,7 +111,7 @@ cart = a single standalone shopping cart with NO other cart inside
 - **VQA verification:** Enable "Verify detections with VQA" to ask a second model yes/no questions about each detection
 - **Multi-scale inference:** Enable for better detection at different object sizes
 
-**Key point:** _"The tool supports 9 models. You can pick the best one for your task: Claude for understanding complex concepts, YOLOE for speed, Grounding DINO for accuracy."_
+**Key point:** _"The tool supports multiple models. Pick the best one for your task: Qwen2.5-VL for understanding complex concepts, YOLOE for speed, Grounding DINO for simple object detection."_
 
 ---
 
@@ -155,7 +156,7 @@ Show the complete workflow diagram:
 Raw Images/Video
       |
       v
-[Manual Annotation] or [VLM Auto-Annotation (Claude/YOLOE/etc.)]
+[Manual Annotation] or [VLM Auto-Annotation (Qwen2.5-VL/YOLOE/etc.)]
       |
       v
 [Review & Correct] <-- Active Learning captures corrections
@@ -176,34 +177,32 @@ Raw Images/Video
 
 ### Why This Tool?
 1. **All-in-one:** Annotate, auto-label, and train without switching tools
-2. **Model flexibility:** 9+ detection models, 5 VQA models, 2 embedding models, 4 SAM2 variants
-3. **Claude integration:** Only model that understands natural language label definitions - critical for domain-specific detection
+2. **Model flexibility:** Multiple detection models, VQA verification models, embedding models, SAM2 variants
+3. **Context-aware VLM detection:** Qwen2.5-VL understands natural-language label definitions — critical for domain-specific detection
 4. **Video-native:** Direct video-to-annotation pipeline for both YOLO and VLM workflows
 5. **Active learning:** System learns from your corrections automatically
 
-### Claude vs Other Models
-| Capability | Claude | Grounding DINO | YOLOE | OWL-ViT |
-|-----------|--------|---------------|-------|---------|
+### Model Comparison
+| Capability | Qwen2.5-VL | Grounding DINO | YOLOE | OWL-ViT |
+|-----------|------------|---------------|-------|---------|
 | Understands label descriptions | Yes | No | No | No |
-| Needs GPU | No (API) | Yes | Yes | Yes |
-| Speed per image | ~3-5s | ~0.5s | ~0.2s | ~0.5s |
-| Fine-grained classification | Excellent | Poor | Poor | Poor |
-| Cost | API cost | Free (local) | Free (local) | Free (local) |
+| Runs locally (no API) | Yes | Yes | Yes | Yes |
+| Speed per image | ~1-2s | ~0.5s | ~0.2s | ~0.5s |
+| Fine-grained classification | Good | Poor | Poor | Poor |
+| VRAM needed | ~5GB | ~4GB | ~2GB | ~3GB |
 
 ### Technical Highlights
 - YOLO format output (class_idx xc yc w h) - industry standard
-- Multi-class mapping in one pass (new)
-- CLIP/SigLIP few-shot filtering with JSON persistence
-- SAM2 mask refinement with tight bounding box extraction
-- Multi-scale inference with Weighted Boxes Fusion
-- Scrollable VLM tab UI for all options accessible
+- Multi-class mapping in one pass
+- Live training dashboard with mAP50, losses, learning rate
+- Resizable control panel for flexible workflows
 
 ---
 
 ## Backup / Contingency
 
-- If Claude API is slow: have YOLOE pre-loaded as backup, show that workflow instead
-- If GPU not available: use Claude (API-only, no GPU) or Florence-2 on CPU
+- If a model takes too long to load: have YOLOE pre-loaded as backup, show that workflow instead
+- If GPU not available: use Florence-2 on CPU (smaller model)
 - If video extraction is slow: have pre-extracted frames ready in a folder
 - If training takes too long: set epochs=5, show the progress bar updating, explain it would normally run longer
 - Pre-annotate a few images before the demo so the Train tab shows data available immediately
